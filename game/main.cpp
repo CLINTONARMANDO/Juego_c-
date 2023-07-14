@@ -7,31 +7,25 @@ using namespace std;
 class Game
 {
 public:
-    Game() : window(sf::VideoMode(1200, 900), "Mover Cuadrado"), square(sf::Vector2f(100.0f, 100.0f))
+    Game() : window(sf::VideoMode(1060, 720), "Mover Cuadrado"), square(sf::Vector2f(80.0f, 80.0f)), stud1(sf::Vector2f(80.0f, 80.0f)), stud2(sf::Vector2f(80.0f, 80.0f)), stud3(sf::Vector2f(80.0f, 80.0f)), stud4(sf::Vector2f(80.0f, 80.0f)), stud5(sf::Vector2f(80.0f, 80.0f)), stud6(sf::Vector2f(80.0f, 80.0f))
     {
         square.setFillColor(sf::Color::Red);
-        square.setPosition(0.0f, 400.0f);
-        squareSpeed = 200.0f;
+        square.setPosition(0.0f, 320.0f);
+        squareSpeed = 1.0f;
         squareSpeedx = squareSpeed;
-        squareSpeedx = 0.0f;
-        sf::RectangleShape stud1(sf::Vector2f(100.0f, 100.0f));
+        squareSpeedy = 0.0f;
     	stud1.setFillColor(sf::Color::Green);
-    	stud1.setPosition(200.0f, 600.0f);
-        sf::RectangleShape stud2(sf::Vector2f(100.0f, 100.0f));
+    	stud1.setPosition(160.0f, 480.0f);
     	stud2.setFillColor(sf::Color::Green);
-    	stud2.setPosition(200.0f, 200.0f);
-        sf::RectangleShape stud3(sf::Vector2f(100.0f, 100.0f));
+    	stud2.setPosition(160.0f, 160.0f);
     	stud3.setFillColor(sf::Color::Green);
-    	stud3.setPosition(600.0f, 600.0f);
-        sf::RectangleShape stud4(sf::Vector2f(100.0f, 100.0f));
+    	stud3.setPosition(480.0f, 480.0f);
     	stud4.setFillColor(sf::Color::Green);
-    	stud4.setPosition(600.0f, 200.0f);
-        sf::RectangleShape stud5(sf::Vector2f(100.0f, 100.0f));
+    	stud4.setPosition(480.0f, 160.0f);
     	stud5.setFillColor(sf::Color::Green);
-    	stud5.setPosition(1000.0f, 600.0f);
-        sf::RectangleShape stud6(sf::Vector2f(100.0f, 100.0f));
+    	stud5.setPosition(800.0f, 480.0f);
     	stud6.setFillColor(sf::Color::Green);
-    	stud6.setPosition(1000.0f, 200.0f);
+    	stud6.setPosition(800.0f, 160.0f);
         
     }
 
@@ -60,47 +54,58 @@ private:
 
     void update(sf::Time elapsedTime)
     {
-        float movement = squareSpeedx * elapsedTime.asSeconds();
-        square.move(movement, 0.0f);
+        float movementx = squareSpeedx;
+        float movementy = squareSpeedy;
+        square.move(movementx, movementy);
 		int numrand=0; 	
-        if (square.getPosition().x + square.getSize().x > window.getSize().x || square.getPosition().x < 0){
+        if ((square.getPosition().x + square.getSize().x > window.getSize().x || square.getPosition().x < 0) && (square.getPosition().y == 320)){
         	numrand = 1+rand()%(3-1);
-            switch(numrand){
+            switch(3){
             	case 1:
-            		squareSpeedx = -squareSpeedx;
-            		cout<<numrand;
+            		if(square.getPosition().x < 0){
+            			squareSpeedy = 0;
+            			squareSpeedx = squareSpeed;
+					}
+					else{
+            			squareSpeedy = 0;
+            			squareSpeedx = -squareSpeed;
+					}
             		break;
             	case 2:
-            		squareSpeedx = -squareSpeedx;
-            		cout<<numrand;
+            		squareSpeedx = 0;
+            		squareSpeedy = -squareSpeed;
             		break;
             	case 3:
-            		squareSpeedx = -squareSpeedx;
-            		cout<<numrand;
+            		squareSpeedx = 0;
+            		squareSpeedy = squareSpeed;
             		break;
             	
 			}
         }
-        else if (square.getPosition().y + square.getSize().y > window.getSize().y || square.getPosition().y < 0){
+        else if ((square.getPosition().y + square.getSize().y > window.getSize().y || square.getPosition().y < 0) && (square.getPosition().x == 320 || square.getPosition().x == 640)){
         	numrand = 1+rand()%(3-1);
-            switch(numrand){
+            switch(3){
             	case 1:
-            		squareSpeedx = -squareSpeedx;
+            		squareSpeedy = 0;
+            		squareSpeedx = -squareSpeed;
             		break;
             	case 2:
-            		squareSpeedx = -squareSpeedx;
+            		squareSpeedy = 0;
+            		squareSpeedx = squareSpeed;
             		break;
             	case 3:
-            		squareSpeedx = -squareSpeedx;
+            		squareSpeedx = 0;
+            		squareSpeedy = -squareSpeed;
             		break;
             	
 			}
 		}
         else if ((square.getPosition().x < 0 && square.getPosition().y < 0) || (square.getPosition().x < 0 && square.getPosition().y + square.getSize().y > window.getSize().y) || (square.getPosition().x + square.getSize().x > window.getSize().x && square.getPosition().y < 0) || (square.getPosition().x + square.getSize().x > window.getSize().x && square.getPosition().y + square.getSize().y > window.getSize().y)){
         	numrand = 1+rand()%(3-1);
-            switch(numrand){
+            switch(1){
             	case 1:
-            		squareSpeedx = -squareSpeedx;
+            		squareSpeedy = 0;
+            		squareSpeedx = -squareSpeed;
             		break;
             	case 2:
             		squareSpeedx = -squareSpeedx;
@@ -115,11 +120,23 @@ private:
     {
         window.clear();
         window.draw(square);
+        window.draw(stud1);
+        window.draw(stud2);
+        window.draw(stud3);
+        window.draw(stud4);
+        window.draw(stud5);
+        window.draw(stud6);
         window.display();
     }
 
     sf::RenderWindow window;
     sf::RectangleShape square;
+    sf::RectangleShape stud1;
+    sf::RectangleShape stud2;
+    sf::RectangleShape stud3;
+    sf::RectangleShape stud4;
+    sf::RectangleShape stud5;
+    sf::RectangleShape stud6;
     float squareSpeed;
     float squareSpeedx;
     float squareSpeedy;
