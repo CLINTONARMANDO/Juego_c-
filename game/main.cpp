@@ -11,7 +11,7 @@ public:
     {
         square.setFillColor(sf::Color::Red);
         square.setPosition(0.0f, 320.0f);
-        squareSpeed = 1.0f;
+        squareSpeed = 0.1250f;
         squareSpeedx = squareSpeed;
         squareSpeedy = 0.0f;
     	stud1.setFillColor(sf::Color::Green);
@@ -58,6 +58,7 @@ private:
         float movementy = squareSpeedy;
         square.move(movementx, movementy);
 		int numrand=0; 	
+		//caso cuadrado en los topes derecho e izquierdo
         if ((square.getPosition().x + square.getSize().x > window.getSize().x || square.getPosition().x < 0) && (square.getPosition().y == 320)){
         	numrand = 1+rand()%(3-1);
             switch(3){
@@ -82,6 +83,7 @@ private:
             	
 			}
         }
+        //caso cuadrado en los topes inferiores y superiores
         else if ((square.getPosition().y + square.getSize().y > window.getSize().y || square.getPosition().y < 0) && (square.getPosition().x == 320 || square.getPosition().x == 640)){
         	numrand = 1+rand()%(3-1);
             switch(3){
@@ -100,6 +102,7 @@ private:
             	
 			}
 		}
+		//caso cuadrado en las esquinas
         else if ((square.getPosition().x < 0 && square.getPosition().y < 0) || (square.getPosition().x < 0 && square.getPosition().y + square.getSize().y > window.getSize().y) || (square.getPosition().x + square.getSize().x > window.getSize().x && square.getPosition().y < 0) || (square.getPosition().x + square.getSize().x > window.getSize().x && square.getPosition().y + square.getSize().y > window.getSize().y)){
         	numrand = 1+rand()%(3-1);
             switch(1){
@@ -108,7 +111,8 @@ private:
             		squareSpeedx = -squareSpeed;
             		break;
             	case 2:
-            		squareSpeedx = -squareSpeedx;
+            		squareSpeedx = 0;
+            		squareSpeedy = -squareSpeed;
             		break;
             	
 			}
